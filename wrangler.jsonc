@@ -1,0 +1,11 @@
+{
+  // Static site served by Cloudflare Workers Static Assets.
+  // "name" is assumed to match the existing worker (pakistan-resolve.<account>.workers.dev).
+  // If your worker has a different name, change it here before deploying.
+  "name": "pakistan-resolve",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
