@@ -157,9 +157,7 @@ function layout({ title, description, urlPath, main, section = '', noindex = fal
   const desc = description || cfg.description;
   const nav = [
     ['', '/', 'Home'],
-    ['systems', '/systems/', 'Explore Systems'],
     ['library', '/library/', 'Knowledge Library'],
-    ['explainers', '/explainers/', 'Explainers'],
     ['about', '/about/', 'About'],
   ]
     .map(([key, href, label]) => `<li><a href="${href}"${section === key ? ' aria-current="page"' : ''}>${label}</a></li>`)
@@ -368,7 +366,7 @@ function homePage() {
     <p class="eyebrow">${esc(cfg.tagline)}</p>
     <h1>Understand how Pakistan works.</h1>
     <p class="lead">${esc(cfg.name)} breaks down Pakistan's systems, institutions, economy, energy and public issues into clear, sourced explanations, so headlines come with context.</p>
-    <p class="actions"><a class="btn btn-primary" href="/systems/">Explore Systems</a><a class="btn" href="/library/">Browse the Knowledge Library</a></p>
+    <p class="actions"><a class="btn btn-primary" href="/library/#systems">Explore Systems</a><a class="btn" href="/library/">Browse the Knowledge Library</a></p>
     <p class="muted small hero-note">Early build: every page is currently a draft under research and nothing here is verified yet. <a href="/standards/">See how we label content</a>.</p>
   </div>
 </section>
@@ -407,7 +405,7 @@ ${
   <h2>Latest explainers</h2>
   <p class="muted">Short answers to specific questions, each linked to its wider system.</p>
   <div class="grid">${latest.map(card).join('')}</div>
-  <p><a href="/explainers/">All explainers</a></p>
+  <p><a href="/library/#explainers">All explainers</a></p>
 </div></section>`
     : ''
 }
@@ -427,32 +425,6 @@ ${
   );
 }
 
-function systemsIndex() {
-  const roadmap = [
-    'Economy and public finance',
-    'Taxation and the national budget',
-    'Governance and institutions',
-    'Public services (health, education)',
-    'Agriculture and water',
-    'Transport',
-    'Political and constitutional development',
-  ];
-  const main = `<div class="wrap page-head">
-  <p class="crumbs"><a href="/">Home</a> / Explore Systems</p>
-  <h1>Explore Systems</h1>
-  <p class="lead">Each system page maps one part of public life: how it works, who is responsible, where money flows, what the evidence says, and what is debated.</p>
-</div>
-<div class="wrap">
-  <div class="grid">${systems.map(card).join('')}</div>
-  <section class="block">
-    <h2>On the roadmap</h2>
-    <p class="muted">These areas are planned but not started. They are listed as plain text on purpose: a page appears only when researched material is ready.</p>
-    <ul class="plain">${roadmap.map((r) => `<li>${r}</li>`).join('')}</ul>
-  </section>
-</div>`;
-  emit('/systems/', layout({ title: 'Explore Systems', description: 'System-by-system explanations of how parts of Pakistan work: institutions, money, rules, evidence and debates.', urlPath: '/systems/', main, section: 'systems' }));
-}
-
 function systemPage(s) {
   const { html, toc } = md(s);
   const tocEntries = [
@@ -463,7 +435,7 @@ function systemPage(s) {
     { id: 'sources', text: 'Sources and further reading' },
   ];
   const main = `<div class="wrap page-head">
-  <p class="crumbs"><a href="/">Home</a> / <a href="/systems/">Explore Systems</a> / ${esc(s.title)}</p>
+  <p class="crumbs"><a href="/">Home</a> / <a href="/library/">Knowledge Library</a> / <a href="/library/#systems">Systems</a> / ${esc(s.title)}</p>
   <p class="eyebrow">System · ${esc(s.topic)}</p>
   <h1>${esc(s.title)}</h1>
   <p class="lead">${esc(s.summary)}</p>
@@ -482,22 +454,7 @@ function systemPage(s) {
     ${sourcesBlock(s)}
   </article>
 </div>`;
-  emit(s.url, layout({ title: s.title, description: s.summary, urlPath: s.url, main, section: 'systems', type: 'article' }));
-}
-
-function explainersIndex() {
-  const sorted = [...explainers].sort((a, b) => String(b.updated).localeCompare(String(a.updated)));
-  const main = `<div class="wrap page-head">
-  <p class="crumbs"><a href="/">Home</a> / Explainers</p>
-  <h1>Explainers</h1>
-  <p class="lead">Short, focused answers to questions readers actually ask. Each explainer stands alone and links into the wider system.</p>
-</div>
-<div class="wrap">${
-    sorted.length
-      ? `<div class="grid">${sorted.map(card).join('')}</div>`
-      : `<div class="empty"><p><strong>No explainers yet.</strong> Start with <a href="/systems/">Explore Systems</a>.</p></div>`
-  }</div>`;
-  emit('/explainers/', layout({ title: 'Explainers', description: 'Short, sourced answers to specific questions about how Pakistan works.', urlPath: '/explainers/', main, section: 'explainers' }));
+  emit(s.url, layout({ title: s.title, description: s.summary, urlPath: s.url, main, section: 'library', type: 'article' }));
 }
 
 function explainerPage(e) {
@@ -510,7 +467,7 @@ function explainerPage(e) {
     { id: 'sources', text: 'Sources and further reading' },
   ];
   const main = `<div class="wrap page-head">
-  <p class="crumbs"><a href="/">Home</a> / <a href="/explainers/">Explainers</a> / ${esc(e.title)}</p>
+  <p class="crumbs"><a href="/">Home</a> / <a href="/library/">Knowledge Library</a> / <a href="/library/#explainers">Explainers</a> / ${esc(e.title)}</p>
   <p class="eyebrow">Explainer${e.topic ? ` · ${esc(e.topic)}` : ''}</p>
   <h1>${esc(e.title)}</h1>
   <p class="question">${esc(e.question)}</p>
@@ -527,7 +484,7 @@ function explainerPage(e) {
     ${sourcesBlock(e)}
   </article>
 </div>`;
-  emit(e.url, layout({ title: e.title, description: e.question, urlPath: e.url, main, section: 'explainers', type: 'article' }));
+  emit(e.url, layout({ title: e.title, description: e.question, urlPath: e.url, main, section: 'library', type: 'article' }));
 }
 
 function institutionPage(x) {
@@ -545,36 +502,70 @@ function institutionPage(x) {
 }
 
 function libraryPage() {
-  const items = [...systems, ...explainers, ...institutions, ...glossary];
-  const typeOrder = ['system', 'explainer', 'institution', 'glossary'];
-  items.sort((a, b) => typeOrder.indexOf(a.kind) - typeOrder.indexOf(b.kind) || String(a.title).localeCompare(String(b.title)));
-  const types = typeOrder.filter((k) => items.some((i) => i.kind === k));
-  const topics = [...new Set(items.map((i) => i.topic).filter(Boolean))].sort();
+  const roadmap = [
+    'Economy and public finance',
+    'Taxation and the national budget',
+    'Governance and institutions',
+    'Public services (health, education)',
+    'Agriculture and water',
+    'Transport',
+    'Political and constitutional development',
+  ];
+  const topics = [...new Set([...systems, ...explainers, ...institutions, ...glossary].map((i) => i.topic).filter(Boolean))].sort();
+  const wrap = (i, inner) => `<div class="lib-item" data-topic="${esc(i.topic || '')}">${inner}</div>`;
+  const jump = [
+    ['systems', 'Systems'],
+    ['explainers', 'Explainers'],
+    ...(institutions.length ? [['institutions', 'Institutions']] : []),
+    ['glossary', 'Glossary'],
+  ];
   const main = `<div class="wrap page-head">
   <p class="crumbs"><a href="/">Home</a> / Knowledge Library</p>
   <h1>Knowledge Library</h1>
-  <p class="lead">Everything published so far: systems, explainers and glossary terms. Filters are simple on purpose and will grow as the library does.</p>
+  <p class="lead">Everything published so far, in one place: systems that map how parts of Pakistan work, short explainers that answer one question, and a glossary of the terms they use.</p>
+  <nav aria-label="Sections of this page"><ul class="chips">${jump.map(([id, label]) => `<li><a href="#${id}">${label}</a></li>`).join('')}</ul></nav>
 </div>
-<div class="wrap">
+<div class="wrap" id="lib">
   <div class="filters js-only">
-    <label>Type <select id="f-type"><option value="">All types</option>${types.map((k) => `<option value="${k}">${KINDS[k].label}${k === 'glossary' ? 's' : k === 'system' ? 's' : 's'}</option>`).join('')}</select></label>
     <label>Topic <select id="f-topic"><option value="">All topics</option>${topics.map((t) => `<option>${esc(t)}</option>`).join('')}</select></label>
-    <button type="button" id="f-clear" class="btn btn-small">Clear filters</button>
+    <button type="button" id="f-clear" class="btn btn-small">Clear filter</button>
+    <span id="f-count" class="muted small" aria-live="polite"></span>
   </div>
-  <p id="f-count" class="muted small" aria-live="polite">${items.length} item${items.length === 1 ? '' : 's'}</p>
-  <ul class="list" id="lib-list">${items
-    .map(
-      (i) => `<li class="list-item" data-type="${i.kind}" data-topic="${esc(i.topic || '')}">
-    <p class="card-meta">${KINDS[i.kind].label}${i.topic ? ` · ${esc(i.topic)}` : ''}</p>
-    <h2 class="h-md"><a href="${i.url}">${esc(i.title)}</a></h2>
-    <p>${esc(i.question || i.summary)}</p>
-    <p class="card-foot">${badge(i.status || 'draft')}<span class="muted small">Updated ${fmtDate(i.updated)}</span>${i.kind === 'glossary' ? '' : `<span class="muted small">${readMinutes(plainText(i.body))} min read</span>`}</p>
-  </li>`
-    )
-    .join('')}</ul>
-  <div id="f-empty" class="empty" hidden><p><strong>Nothing matches those filters.</strong> <a href="/library/">Clear the filters</a> or <a href="/systems/">browse systems</a>.</p></div>
+
+  <section class="lib-section" id="systems" data-section>
+    <h2>Systems</h2>
+    <p class="muted">Each system page maps one part of public life: how it works, who is responsible, where money flows, what the evidence says, and what is debated.</p>
+    ${systems.length ? `<div class="grid">${systems.map((i) => wrap(i, card(i))).join('')}</div>` : `<div class="empty"><p><strong>No systems published yet.</strong></p></div>`}
+    <details class="roadmap"><summary>On the roadmap (not started)</summary>
+      <p class="muted small">Planned areas, listed as plain text on purpose: a page appears only when researched material is ready.</p>
+      <ul class="plain">${roadmap.map((r) => `<li>${r}</li>`).join('')}</ul>
+    </details>
+  </section>
+
+  <section class="lib-section" id="explainers" data-section>
+    <h2>Explainers</h2>
+    <p class="muted">Short, focused answers to questions readers actually ask. Each links into its wider system.</p>
+    ${explainers.length ? `<div class="grid">${[...explainers].sort((a, b) => String(b.updated).localeCompare(String(a.updated))).map((i) => wrap(i, card(i))).join('')}</div>` : `<div class="empty"><p><strong>No explainers yet.</strong> Start with a system above.</p></div>`}
+  </section>
+${
+  institutions.length
+    ? `
+  <section class="lib-section" id="institutions" data-section>
+    <h2>Institutions</h2>
+    <div class="grid">${institutions.map((i) => wrap(i, card(i))).join('')}</div>
+  </section>
+`
+    : ''
+}
+  <section class="lib-section" id="glossary" data-section>
+    <h2>Glossary</h2>
+    <p class="muted">Plain-language definitions of terms used across the site. <a href="/glossary/">Open the full glossary</a>.</p>
+    ${glossary.length ? `<ul class="chips">${glossary.map((g) => `<li class="lib-item" data-topic="${esc(g.topic || '')}"><a href="${g.url}" title="${esc(g.summary)}">${esc(g.title)}</a></li>`).join('')}</ul>` : `<div class="empty"><p><strong>No glossary terms yet.</strong></p></div>`}
+  </section>
+
+  <div id="f-empty" class="empty" hidden><p><strong>Nothing matches that topic.</strong> <a href="/library/">Clear the filter</a>.</p></div>
 </div>`;
-  emit('/library/', layout({ title: 'Knowledge Library', description: 'The searchable library of Pakistan Resolve systems, explainers and glossary terms.', urlPath: '/library/', main, section: 'library' }));
+  emit('/library/', layout({ title: 'Knowledge Library', description: 'The Pakistan Resolve Knowledge Library: systems, explainers and glossary terms that explain how Pakistan works.', urlPath: '/library/', main, section: 'library' }));
 }
 
 function glossaryPage() {
@@ -648,16 +639,16 @@ function searchPage() {
   <div id="search-empty" class="empty" hidden>
     <p><strong>No results.</strong> Try a broader word, or start from a system:</p>
     <ul>${systems.map((s) => `<li><a href="${s.url}">${esc(s.title)}</a></li>`).join('')}</ul>
-    <p><a href="/systems/">Browse all systems</a> · <a href="/library/">Browse the library</a></p>
+    <p><a href="/library/#systems">Browse all systems</a> · <a href="/library/">Browse the library</a></p>
   </div>
-  <noscript><p>Search needs JavaScript. You can still <a href="/library/">browse the library</a> or <a href="/systems/">explore systems</a>.</p></noscript>
+  <noscript><p>Search needs JavaScript. You can still <a href="/library/">browse the library</a> or <a href="/library/#systems">explore systems</a>.</p></noscript>
 </div>`;
   emit('/search/', layout({ title: 'Search', description: 'Search Pakistan Resolve.', urlPath: '/search/', main, section: '', noindex: true }));
 }
 
 function notFoundPage() {
   const main = `<div class="wrap page-head"><h1>Page not found</h1><p class="lead">That page does not exist, or has moved.</p>
-<p class="actions"><a class="btn btn-primary" href="/systems/">Explore Systems</a><a class="btn" href="/library/">Browse the Knowledge Library</a></p></div>`;
+<p class="actions"><a class="btn btn-primary" href="/library/#systems">Explore Systems</a><a class="btn" href="/library/">Browse the Knowledge Library</a></p></div>`;
   emit('/404.html', layout({ title: 'Page not found', description: 'Page not found.', urlPath: '/404.html', main, noindex: true }));
 }
 
@@ -690,9 +681,7 @@ function writeOutputs() {
 
   const urls = [
     { u: '/', d: '' },
-    { u: '/systems/', d: '' },
     { u: '/library/', d: '' },
-    { u: '/explainers/', d: '' },
     { u: '/glossary/', d: '' },
     ...[...systems, ...explainers, ...institutions, ...pages].map((i) => ({ u: i.url, d: i.updated })),
   ];
@@ -738,9 +727,7 @@ function checkLinks() {
 
 validate();
 homePage();
-systemsIndex();
 systems.forEach(systemPage);
-explainersIndex();
 explainers.forEach(explainerPage);
 institutions.forEach(institutionPage);
 libraryPage();

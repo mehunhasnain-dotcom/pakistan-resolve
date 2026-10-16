@@ -25,6 +25,10 @@ Two routes:
 
 Before the first deployment, check the existing repository for anything this replaces (the current prototype is a single "Coming Soon" page) and keep any analytics or domain settings you rely on.
 
+## Site structure
+
+Three top-level pages: **Home**, **Knowledge Library** and **About**. The Library page holds the sections **Systems**, **Explainers** and **Glossary** (plus **Institutions** once any exist), reachable at `/library/#systems` and so on. Individual pages keep their own addresses, such as `/systems/electricity/`. The old `/systems/` and `/explainers/` addresses redirect to the Library (see `public/_redirects`). Editorial standards and Corrections are linked from the footer.
+
 ## How the content fits together
 
 Four content types, each a folder under `content/`, linked by slugs (file names without `.md`):

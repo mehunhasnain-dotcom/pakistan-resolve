@@ -4,37 +4,34 @@
 
   var params = new URLSearchParams(location.search);
 
-  /* ---------------------------------------------------------- library filters */
-  var list = document.getElementById('lib-list');
-  if (list) {
-    var typeSel = document.getElementById('f-type');
+  /* ---------------------------------------------------------- library filter */
+  var lib = document.getElementById('lib');
+  if (lib) {
     var topicSel = document.getElementById('f-topic');
     var count = document.getElementById('f-count');
     var empty = document.getElementById('f-empty');
-    var items = Array.prototype.slice.call(list.children);
+    var items = Array.prototype.slice.call(lib.querySelectorAll('.lib-item'));
+    var sections = Array.prototype.slice.call(lib.querySelectorAll('[data-section]'));
 
     var apply = function () {
-      var t = typeSel.value;
       var p = topicSel.value;
       var shown = 0;
-      items.forEach(function (li) {
-        var ok = (!t || li.dataset.type === t) && (!p || li.dataset.topic === p);
-        li.hidden = !ok;
+      items.forEach(function (el) {
+        var ok = !p || el.dataset.topic === p;
+        el.hidden = !ok;
         if (ok) shown++;
       });
-      count.textContent = shown === items.length ? items.length + ' items' : 'Showing ' + shown + ' of ' + items.length + ' items';
-      empty.hidden = shown !== 0;
-      var q = new URLSearchParams();
-      if (t) q.set('type', t);
-      if (p) q.set('topic', p);
-      history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
+      sections.forEach(function (sec) {
+        var any = sec.querySelectorAll('.lib-item:not([hidden])').length > 0;
+        sec.hidden = !!p && !any;
+      });
+      count.textContent = p ? 'Showing ' + shown + ' of ' + items.length + ' items' : '';
+      empty.hidden = !(p && shown === 0);
+      history.replaceState(null, '', location.pathname + (p ? '?topic=' + encodeURIComponent(p) : '') + location.hash);
     };
-    if (params.get('type')) typeSel.value = params.get('type');
     if (params.get('topic')) topicSel.value = params.get('topic');
-    typeSel.addEventListener('change', apply);
     topicSel.addEventListener('change', apply);
     document.getElementById('f-clear').addEventListener('click', function () {
-      typeSel.value = '';
       topicSel.value = '';
       apply();
     });

@@ -201,6 +201,15 @@ tr:last-child td { border-bottom: 0; }
 .results p { margin: 0.2rem 0; }
 mark { background: #ffe58a; color: inherit; padding: 0 0.1em; }
 
+/* library sections */
+.lib-section { margin: 2.2rem 0; scroll-margin-top: 1rem; }
+.lib-section > h2 { margin-top: 0; }
+.lib-item { display: flex; }
+.lib-item > .card { flex: 1; }
+.chips .lib-item { display: list-item; }
+.roadmap { margin: 1rem 0; border: 1px dashed #9aa39c; border-radius: var(--radius); padding: 0.6rem 1rem; background: #fff; }
+.roadmap summary { cursor: pointer; font-weight: 600; }
+
 /* footer */
 .site-footer { border-top: 1px solid var(--line); background: #f3f1ea; margin-top: 3rem; padding: 2rem 0 1.2rem; }
 .footer-grid { display: grid; gap: 1.5rem; }
