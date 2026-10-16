@@ -179,8 +179,15 @@ ${noindex ? '<meta name="robots" content="noindex">' : ''}
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${esc(canonical)}">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="${esc(cfg.siteUrl)}/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pakistan Resolve logo: a green letter R containing a map of Pakistan and Minar-e-Pakistan">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${esc(cfg.siteUrl)}/assets/og-image.png">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/style.css">
 <script>document.documentElement.className+=' js'</script>
 </head>
@@ -189,7 +196,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : ''}
 <header class="site-header">
   <div class="wrap header-row">
     <a class="brand" href="/" aria-label="${esc(cfg.name)} home">
-      <span class="mark" aria-hidden="true"><span class="p">P</span><span class="r">R</span></span>
+      <img class="mark" src="/assets/logo-mark.png" width="52" height="52" alt="">
       <span class="brand-text"><span class="brand-name">${esc(cfg.name)}</span><span class="brand-tag">${esc(cfg.tagline)}</span></span>
     </a>
     <form class="search" role="search" action="/search/" method="get">
@@ -606,7 +613,7 @@ function staticPage(p) {
   <p class="lead">${esc(p.summary)}</p>
   <p class="meta-line"><span>Updated ${fmtDate(p.updated)}</span></p>
 </div>
-<div class="wrap narrow"><article class="prose">${html}</article></div>`;
+<div class="wrap narrow">${p.slug === 'about' ? '<img class="logo-full" src="/assets/logo-full.png" width="787" height="863" alt="Pakistan Resolve logo: a green letter R containing a map of Pakistan and Minar-e-Pakistan, with the words Pakistan and Resolve">' : ''}<article class="prose">${html}</article></div>`;
   emit(p.url, layout({ title: p.title, description: p.summary, urlPath: p.url, main, section: p.slug === 'about' ? 'about' : '' }));
 }
 

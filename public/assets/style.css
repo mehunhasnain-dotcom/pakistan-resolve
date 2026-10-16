@@ -59,9 +59,8 @@ h4 { font-size: 1.05rem; }
 .site-header { background: var(--surface); border-bottom: 1px solid var(--line); }
 .header-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.7rem 1.5rem; padding-top: 0.8rem; padding-bottom: 0.6rem; }
 .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); }
-.mark { display: inline-grid; place-items: center; width: 2.6rem; height: 2.6rem; border: 2px solid var(--ink); border-radius: 8px; font: 800 1.25rem/1 var(--serif); letter-spacing: -0.04em; }
-.mark .p { color: var(--ink); }
-.mark .r { color: var(--green); }
+.mark { display: block; width: 3.1rem; height: 3.1rem; object-fit: contain; }
+.logo-full { display: block; width: min(15rem, 60%); height: auto; margin: 0 0 1.5rem; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-name { font: 700 1.2rem/1.1 var(--serif); }
 .brand-tag { font-size: 0.8rem; color: var(--muted); }
