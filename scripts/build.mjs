@@ -220,6 +220,7 @@ ${main}
         <li><a href="/about/">About</a></li>
         <li><a href="/standards/">Editorial standards</a></li>
         <li><a href="/corrections/">Corrections and contact</a></li>
+        ${cfg.contactEmail ? `<li>Email: <a href="mailto:${esc(cfg.contactEmail)}">${esc(cfg.contactEmail)}</a></li>` : ''}
         <li><a href="/glossary/">Glossary</a></li>
         <li><a href="/library/">Knowledge Library</a></li>
       </ul>
@@ -604,7 +605,7 @@ function staticPage(p) {
   <p class="lead">${esc(p.summary)}</p>
   <p class="meta-line"><span>Updated ${fmtDate(p.updated)}</span></p>
 </div>
-<div class="wrap narrow">${p.slug === 'about' ? '<img class="logo-full" src="/assets/logo-full.png" width="787" height="863" alt="Pakistan Resolve logo: a green letter R containing a map of Pakistan and Minar-e-Pakistan, with the words Pakistan and Resolve">' : ''}<article class="prose">${html}</article></div>`;
+<div class="wrap narrow">${p.slug === 'about' ? '<img class="logo-full" src="/assets/logo-full.png" width="787" height="863" alt="Pakistan Resolve logo: a green letter R containing a map of Pakistan and Minar-e-Pakistan, with the words Pakistan and Resolve">' : ''}<article class="prose">${html}</article>${p.slug === 'about' && cfg.contactEmail ? `<div class="notice"><p><strong>Contact</strong></p><p>Corrections, sources, topic suggestions: <a href="mailto:${esc(cfg.contactEmail)}">${esc(cfg.contactEmail)}</a></p></div>` : ''}</div>`;
   emit(p.url, layout({ title: p.title, description: p.summary, urlPath: p.url, main, section: p.slug === 'about' ? 'about' : '' }));
 }
 
